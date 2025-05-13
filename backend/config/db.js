@@ -1,6 +1,15 @@
-const mongoose = require("mongoose");
-require("dotenv").config();
+const { MongoClient } = require('mongodb');
+const uri = process.env.MONGO_URI;
 
-const connection = mongoose.connect(process.env.dbURL);
+let db;
 
-module.exports = { connection };
+async function connectDB() {
+    if (db) return db;
+
+    const client = new MongoClient(uri);
+    await client.connect();
+    db = client.db(process.env.DB_NAME);
+    return db;
+}
+
+module.exports = connectDB;
