@@ -14,8 +14,9 @@ export default function LoginPage() {
   const handleLogin = async (e: any) => {
     e.preventDefault()
     try {
-      const res = await api.post('/auth/login', { email, password })
-      login(res.data)
+      const res = await api.post('http://localhost:5000/api/login', { username: email, password })
+      login(res.data);
+      localStorage.setItem("token", res.data.token);
       router.push(res.data.role === 'admin' ? '/admin' : '/dashboard')
     } catch (err) {
       alert('Login failed')
