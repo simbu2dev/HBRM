@@ -11,9 +11,9 @@ type BedRequest = {
 
 export default function AdminPanel() {
   const [requests, setRequests] = useState<BedRequest[]>([
-    // Sample data; replace with API later
-    { id: '1', patientName: 'John Doe', wardType: 'ICU', status: 'pending' },
-    { id: '2', patientName: 'Jane Smith', wardType: 'General', status: 'approved' }
+    // Sample data; to be replaced with API later
+    { id: '1', patientName: 'Adityanand Singh', wardType: 'ICU', status: 'pending' },
+    { id: '2', patientName: 'Rajesh', wardType: 'General', status: 'approved' }
   ])
 
   const handleApprove = (id: string) => {
