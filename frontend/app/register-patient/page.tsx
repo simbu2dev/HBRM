@@ -5,19 +5,40 @@ import { useRouter } from 'next/navigation'
 import api from '@/services/api'
 
 export default function RegisterPatientPage() {
-  const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [age, setAge] = useState('')
   const [gender, setGender] = useState('Male')
-  const [contact, setContact] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [address, setAddress] = useState('')
+  const [success, setSuccess] = useState(false)
+
   const router = useRouter()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      // Replace with actual backend call later
-      await api.post('/patients/register', { name, age, gender, contact })
-      alert('Patient registered successfully!')
-      router.push('/dashboard')
+      await api.post('/patients/register', {
+        firstName,
+        lastName,
+        age,
+        gender,
+        phone,
+        email,
+        address,
+      })
+
+      setSuccess(true)
+
+      // Optional: Clear the form
+      setFirstName('')
+      setLastName('')
+      setAge('')
+      setGender('Male')
+      setPhone('')
+      setEmail('')
+      setAddress('')
     } catch (error) {
       alert('Registration failed')
     }
@@ -28,21 +49,37 @@ export default function RegisterPatientPage() {
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">Register New Patient</h2>
 
+        {success && (
+          <div className="bg-green-100 text-green-800 p-3 mb-4 rounded border border-green-400">
+            ✅ Patient registered successfully!
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-3">
+          <input
+            className="p-2 border rounded text-black"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <input
+            className="p-2 border rounded text-black"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
+
         <input
-          className="w-full p-2 mb-3 border rounded text-black"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          className="w-full p-2 mb-3 border rounded text-black"
+          className="w-full mt-3 p-2 border rounded text-black"
           type="number"
           placeholder="Age"
           value={age}
           onChange={(e) => setAge(e.target.value)}
         />
+
         <select
-          className="w-full p-2 mb-3 border rounded text-black"
+          className="w-full mt-3 p-2 border rounded text-black"
           value={gender}
           onChange={(e) => setGender(e.target.value)}
         >
@@ -50,17 +87,34 @@ export default function RegisterPatientPage() {
           <option value="Female">Female</option>
           <option value="Other">Other</option>
         </select>
+
         <input
-          className="w-full p-2 mb-3 border rounded text-black"
+          className="w-full mt-3 p-2 border rounded text-black"
           type="tel"
-          placeholder="Contact Number"
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
+          placeholder="Phone Number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+
+        <input
+          className="w-full mt-3 p-2 border rounded text-black"
+          type="email"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <textarea
+          className="w-full mt-3 p-2 border rounded text-black"
+          placeholder="Full Address"
+          rows={3}
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white p-2 rounded mt-4 hover:bg-blue-700"
         >
           Register
         </button>
