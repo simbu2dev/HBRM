@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useAuth } from '@/context/AuthContext'
+import { useRouter } from 'next/navigation'
 
 type BedRequest = {
   id: string
@@ -10,6 +12,13 @@ type BedRequest = {
 }
 
 export default function AdminPanel() {
+  const { logout } = useAuth()
+const router = useRouter()
+
+const handleLogout = () => {
+  logout()
+  router.push('/')
+}
   const [requests, setRequests] = useState<BedRequest[]>([
     // Sample data; to be replaced with API later
     { id: '1', patientName: 'Adityanand Singh', wardType: 'ICU', status: 'pending' },
@@ -31,6 +40,15 @@ export default function AdminPanel() {
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Admin Panel</h1>
+      <div className="flex justify-end mb-4">
+  <button
+    onClick={handleLogout}
+    className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+  >
+    Log Out
+  </button>
+</div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded shadow">
           <thead className="bg-blue-100 text-gray-700">
