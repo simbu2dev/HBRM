@@ -21,6 +21,6 @@ const bedSchema = mongoose.Schema({
   },
 });
 
-const BedModel = mongoose.model("bed", bedSchema);
+const BedModel = mongoose.model("beds", bedSchema);
 
 module.exports = { BedModel };
